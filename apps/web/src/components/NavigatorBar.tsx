@@ -1,14 +1,15 @@
 import React from 'react';
+import { useAuth } from 'hooks/useAuth';
 
 interface NavigatorBarProps {
   setActiveTab: (tab: string) => void;
-  permissions: string[];
 }
 
-const NavigatorBar: React.FC<NavigatorBarProps> = ({ setActiveTab, permissions }) => {
+const NavigatorBar: React.FC<NavigatorBarProps> = ({ setActiveTab }) => {
+  const { permissions } = useAuth();
   return (
     <nav style={{ padding: '1rem', backgroundColor: '#333', borderBottom: '2px solid #555' }}>
-      {permissions.map((tab) => (
+      {permissions.tabs.map((tab) => (
         <button
           key={tab}
           onClick={() => setActiveTab(tab)}

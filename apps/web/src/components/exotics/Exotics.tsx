@@ -1,11 +1,10 @@
 import React from 'react';
+import { useAuth } from 'hooks/useAuth';
 import RPM from './rpm/RPM';
 
-interface ExoticsProps {
-  permissions: string[];
-}
+const Exotics: React.FC = () => {
+  const { permissions } = useAuth();
 
-const Exotics: React.FC<ExoticsProps> = ({ permissions }) => {
   const toolComponents: { [key: string]: React.ReactElement } = {
     rpm: <RPM />,
   };
@@ -14,7 +13,7 @@ const Exotics: React.FC<ExoticsProps> = ({ permissions }) => {
     <div style={{ padding: '2rem', backgroundColor: '#1a1a1a', color: '#fff', minHeight: '100vh' }}>
       <h1>Exotics</h1>
       <div style={{ marginTop: '2rem' }}>
-        {permissions.map((tool) => (
+        {permissions.exotics.map((tool) => (
           <div key={tool} style={{ marginBottom: '2rem' }}>
             {toolComponents[tool]}
           </div>

@@ -1,28 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSettings } from 'hooks/useSettings';
 import styles from './Settings.module.css';
 
-const getCurrentDate = () => {
-  const today = new Date();
-  return today.toISOString().split('T')[0];
-};
-
-const getPreviousBusinessDate = () => {
-  const today = new Date();
-  const dayOfWeek = today.getDay();
-  if (dayOfWeek === 1) {
-    today.setDate(today.getDate() - 3);
-  } else if (dayOfWeek === 0) {
-    today.setDate(today.getDate() - 2);
-  } else {
-    today.setDate(today.getDate() - 1);
-  }
-  return today.toISOString().split('T')[0];
-};
-
 const Settings: React.FC = () => {
-  const [dateT, setDateT] = useState(getCurrentDate());
-  const [dateTMinus1, setDateTMinus1] = useState(getPreviousBusinessDate());
-  const [environment, setEnvironment] = useState('prod');
+  const { dateT, setDateT, dateTMinus1, setDateTMinus1, environment, setEnvironment } = useSettings();
 
   return (
     <div className={styles.container}>

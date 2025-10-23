@@ -10,28 +10,18 @@ import Inflation from 'components/inflation/Inflation';
 
 interface MainAreaProps {
   activeTab: string;
-  permissions: {
-    tabs: string[];
-    dd: string[];
-    rad: string[];
-    exotics: string[];
-    ldfx: string[];
-    fxg: string[];
-    options: string[];
-    inflation: string[];
-  };
 }
 
-const MainArea: React.FC<MainAreaProps> = ({ activeTab, permissions }) => {
+const MainArea: React.FC<MainAreaProps> = ({ activeTab }) => {
   const components: { [key: string]: React.ReactElement } = {
     settings: <Settings />,
-    rad: <RAD permissions={permissions.rad} />,
-    dd: <DD permissions={permissions.dd} />,
-    exotics: <Exotics permissions={permissions.exotics} />,
-    ldfx: <LDFX permissions={permissions.ldfx} />,
-    fxg: <FXG permissions={permissions.fxg} />,
-    options: <Options permissions={permissions.options} />,
-    inflation: <Inflation permissions={permissions.inflation} />,
+    rad: <RAD />,
+    dd: <DD />,
+    exotics: <Exotics />,
+    ldfx: <LDFX />,
+    fxg: <FXG />,
+    options: <Options />,
+    inflation: <Inflation />,
   };
 
   return <div>{components[activeTab]}</div>;

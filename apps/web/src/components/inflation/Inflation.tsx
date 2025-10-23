@@ -1,11 +1,10 @@
 import React from 'react';
+import { useAuth } from 'hooks/useAuth';
 import RPM from './rpm/RPM';
 
-interface InflationProps {
-  permissions: string[];
-}
+const Inflation: React.FC = () => {
+  const { permissions } = useAuth();
 
-const Inflation: React.FC<InflationProps> = ({ permissions }) => {
   const toolComponents: { [key: string]: React.ReactElement } = {
     rpm: <RPM />,
   };
@@ -14,7 +13,7 @@ const Inflation: React.FC<InflationProps> = ({ permissions }) => {
     <div style={{ padding: '2rem', backgroundColor: '#1a1a1a', color: '#fff', minHeight: '100vh' }}>
       <h1>Inflation</h1>
       <div style={{ marginTop: '2rem' }}>
-        {permissions.map((tool) => (
+        {permissions.inflation.map((tool) => (
           <div key={tool} style={{ marginBottom: '2rem' }}>
             {toolComponents[tool]}
           </div>

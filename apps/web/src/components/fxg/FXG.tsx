@@ -1,11 +1,10 @@
 import React from 'react';
+import { useAuth } from 'hooks/useAuth';
 import RPM from './rpm/RPM';
 
-interface FXGProps {
-  permissions: string[];
-}
+const FXG: React.FC = () => {
+  const { permissions } = useAuth();
 
-const FXG: React.FC<FXGProps> = ({ permissions }) => {
   const toolComponents: { [key: string]: React.ReactElement } = {
     rpm: <RPM />,
   };
@@ -14,7 +13,7 @@ const FXG: React.FC<FXGProps> = ({ permissions }) => {
     <div style={{ padding: '2rem', backgroundColor: '#1a1a1a', color: '#fff', minHeight: '100vh' }}>
       <h1>FXG</h1>
       <div style={{ marginTop: '2rem' }}>
-        {permissions.map((tool) => (
+        {permissions.fxg.map((tool) => (
           <div key={tool} style={{ marginBottom: '2rem' }}>
             {toolComponents[tool]}
           </div>
