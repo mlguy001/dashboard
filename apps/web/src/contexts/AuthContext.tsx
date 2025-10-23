@@ -1,4 +1,6 @@
 import React, { createContext, useState, useEffect, ReactNode } from 'react';
+import { fetchUserPermissions } from 'services/auth';
+import { formatApiError } from 'services/api';
 import type { AuthContextType, Permissions } from 'types/auth';
 
 // Default permissions (empty state)
@@ -32,13 +34,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setLoading(true);
       setError(null);
 
-      const response = await fetch('/api/user/permissions');
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch permissions: ${response.status}`);
-      }
-
-      const data = await response.json();
+      // Use auth service instead of direct fetch
+      const data = await fetchUserPermissions();
 
       setPermissions(data);
 
@@ -49,7 +46,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         roles: ['admin'],
       });
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      // Use formatApiError for consistent error messages
+      const errorMessage = formatApiError(err);
       setError(errorMessage);
       console.error('Error fetching permissions:', err);
     } finally {
