@@ -1,5 +1,6 @@
 import React, { createContext, useState, ReactNode } from 'react';
 import type { SettingsContextType, Environment } from 'types/settings';
+import type { ServerState } from 'types/localServer';
 
 // Helper functions for date calculations
 const getCurrentDate = (): string => {
@@ -36,14 +37,29 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) 
   const [dateT, setDateT] = useState<string>(getCurrentDate());
   const [dateTMinus1, setDateTMinus1] = useState<string>(getPreviousBusinessDate());
   const [environment, setEnvironment] = useState<Environment>('prod');
+  const [servers, setServers] = useState<Record<number, ServerState>>({});
+
+  const updateServerState = (port: number, state: ServerState) => {
+    setServers((prev) => ({
+      ...prev,
+      [port]: state,
+    }));
+  };
+
+  const getServerState = (port: number): ServerState | undefined => {
+    return servers[port];
+  };
 
   const value: SettingsContextType = {
     dateT,
     dateTMinus1,
     environment,
+    servers,
     setDateT,
     setDateTMinus1,
     setEnvironment,
+    updateServerState,
+    getServerState,
   };
 
   return <SettingsContext.Provider value={value}>{children}</SettingsContext.Provider>;

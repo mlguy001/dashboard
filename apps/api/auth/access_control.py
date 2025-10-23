@@ -2,6 +2,7 @@
 
 # All possible tabs in the dashboard
 ALL_TABS = ['settings', 'rad', 'dd', 'exotics', 'ldfx', 'fxg', 'options', 'inflation']
+# ALL_TABS = ['settings', 'rad']
 
 # Tools available for each desk
 DD_TOOLS = ['publisher', 'aggregator', 'sodrisk']

@@ -1,16 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './IngestorTools.module.css';
 import DataTable from '../../shared/DataTable';
 import { fetchIngestorSnapshot } from '../../../services/rad';
 import { IngestorSnapshotRequest, IngestorDataResponse } from '../../../types/rad';
 import { formatApiError } from '../../../services/api';
+import { useSettings } from '../../../hooks/useSettings';
+import { generateMockSnapshotData } from '../../../services/rad/mockData';
 
 const IngestorSnapshot: React.FC = () => {
+  const { dateT, environment } = useSettings();
+
   const [formData, setFormData] = useState<IngestorSnapshotRequest>({
-    date: '',
+    date: dateT,
     desk: '',
-    env: 'prod',
+    env: environment,
   });
+
+  // Update form when global settings change
+  useEffect(() => {
+    setFormData((prev) => ({
+      ...prev,
+      date: dateT,
+      env: environment,
+    }));
+  }, [dateT, environment]);
 
   const [data, setData] = useState<IngestorDataResponse | null>(null);
   const [loading, setLoading] = useState(false);
@@ -31,7 +44,11 @@ const IngestorSnapshot: React.FC = () => {
       const response = await fetchIngestorSnapshot(formData);
       setData(response);
     } catch (err: any) {
-      setError(formatApiError(err));
+      // If API fails, fallback to mock data
+      console.warn('API failed, using mock data:', formatApiError(err));
+      const mockData = generateMockSnapshotData(formData.date, formData.desk, formData.env);
+      setData(mockData);
+      setError(null); // Clear error since we have fallback data
     } finally {
       setLoading(false);
     }

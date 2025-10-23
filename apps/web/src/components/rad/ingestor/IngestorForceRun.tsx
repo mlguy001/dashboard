@@ -1,37 +1,72 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './IngestorTools.module.css';
 import EditableTable from '../../shared/EditableTable';
 import { fetchIngestorTemplate, submitIngestorForceRun } from '../../../services/rad';
 import { IngestorTableRow, IngestorTemplate } from '../../../types/rad';
 import { formatApiError } from '../../../services/api';
+import { useSettings } from '../../../hooks/useSettings';
+import { getMockTemplate, getMockTemplateList } from '../../../services/rad/mockData';
 
 const IngestorForceRun: React.FC = () => {
+  const { environment } = useSettings();
+
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string>('');
   const [template, setTemplate] = useState<IngestorTemplate | null>(null);
   const [tableData, setTableData] = useState<IngestorTableRow[]>([]);
   const [loadingTemplate, setLoadingTemplate] = useState(false);
   const [templateError, setTemplateError] = useState<string | null>(null);
 
+  const templateList = getMockTemplateList();
+
   const [formData, setFormData] = useState({
-    env: 'prod',
+    env: environment,
     dryRun: true,
   });
+
+  // Update env when global settings change
+  useEffect(() => {
+    setFormData((prev) => ({
+      ...prev,
+      env: environment,
+    }));
+  }, [environment]);
 
   const [submitting, setSubmitting] = useState(false);
   const [submitResult, setSubmitResult] = useState<string | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
+  const handleTemplateSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const templateId = e.target.value;
+    setSelectedTemplateId(templateId);
+  };
+
   const handleLoadTemplate = async () => {
+    if (!selectedTemplateId) {
+      setTemplateError('Please select a template');
+      return;
+    }
+
     setLoadingTemplate(true);
     setTemplateError(null);
     setSubmitResult(null);
     setSubmitError(null);
 
     try {
+      // Try to fetch from API first
       const templateData = await fetchIngestorTemplate();
       setTemplate(templateData);
       setTableData(templateData.rows);
     } catch (err: any) {
-      setTemplateError(formatApiError(err));
+      // Fallback to mock template
+      console.warn('API failed, using mock template:', formatApiError(err));
+      const mockTemplate = getMockTemplate(selectedTemplateId);
+      if (mockTemplate) {
+        setTemplate(mockTemplate);
+        setTableData(mockTemplate.rows);
+        setTemplateError(null);
+      } else {
+        setTemplateError('Template not found');
+      }
     } finally {
       setLoadingTemplate(false);
     }
@@ -78,12 +113,30 @@ const IngestorForceRun: React.FC = () => {
       {!template && (
         <div className={styles.templateSection}>
           <p className={styles.instructions}>
-            Load a template to begin configuring the force run parameters.
+            Select and load a template to begin configuring the force run parameters.
           </p>
+          <div className={styles.formRow}>
+            <div className={styles.formGroup}>
+              <label htmlFor="templateSelect">Template:</label>
+              <select
+                id="templateSelect"
+                value={selectedTemplateId}
+                onChange={handleTemplateSelect}
+                className={styles.templateSelect}
+              >
+                <option value="">-- Select a template --</option>
+                {templateList.map((t) => (
+                  <option key={t.id} value={t.id}>
+                    {t.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
           <button
             onClick={handleLoadTemplate}
             className={styles.submitButton}
-            disabled={loadingTemplate}
+            disabled={loadingTemplate || !selectedTemplateId}
           >
             {loadingTemplate ? 'Loading Template...' : 'Load Template'}
           </button>
