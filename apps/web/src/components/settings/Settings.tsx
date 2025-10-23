@@ -32,7 +32,7 @@ const Settings: React.FC = () => {
           <select
             id="environment"
             value={environment}
-            onChange={(e) => setEnvironment(e.target.value)}
+            onChange={(e) => setEnvironment(e.target.value as 'prod' | 'uat' | 'dev')}
           >
             <option value="prod">Prod</option>
             <option value="uat">UAT</option>

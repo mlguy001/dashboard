@@ -1,0 +1,88 @@
+.tableContainer {
+  margin-top: 1rem;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  background-color: #2a2a2a;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.table thead {
+  background-color: #3a3a3a;
+}
+
+.table th {
+  padding: 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid #555;
+}
+
+.table tbody tr {
+  border-bottom: 1px solid #444;
+}
+
+.table td {
+  padding: 0.5rem;
+}
+
+.cellInput {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #555;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.cellInput:focus {
+  outline: none;
+  border-color: #777;
+  background-color: #3a3a3a;
+}
+
+.actionColumn {
+  width: 100px;
+  text-align: center;
+}
+
+.deleteButton {
+  padding: 0.4rem 0.8rem;
+  background-color: #6a2020;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background-color 0.2s;
+}
+
+.deleteButton:hover {
+  background-color: #8a3030;
+}
+
+.addButton {
+  padding: 0.6rem 1.2rem;
+  background-color: #2a5a2a;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.addButton:hover {
+  background-color: #3a7a3a;
+}

@@ -5,8 +5,6 @@
  * All API calls should go through this client for consistency.
  */
 
-import type { ApiResponse, ApiError } from 'types/api';
-
 /**
  * API configuration
  */

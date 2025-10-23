@@ -1,0 +1,87 @@
+.tableContainer {
+  overflow-x: auto;
+  margin-top: 1rem;
+  background-color: #2a2a2a;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.table thead {
+  background-color: #3a3a3a;
+}
+
+.table th {
+  padding: 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid #555;
+}
+
+.table tbody tr {
+  border-bottom: 1px solid #444;
+}
+
+.table tbody tr:hover {
+  background-color: #353535;
+}
+
+.table td {
+  padding: 0.75rem;
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  color: #aaa;
+}
+
+.spinner {
+  border: 4px solid #444;
+  border-top: 4px solid #fff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.errorContainer {
+  padding: 1rem;
+  background-color: #3a2020;
+  border: 1px solid #6a3030;
+  border-radius: 4px;
+  margin-top: 1rem;
+}
+
+.errorMessage {
+  color: #ff6b6b;
+  margin: 0;
+}
+
+.emptyContainer {
+  padding: 2rem;
+  text-align: center;
+  color: #aaa;
+  background-color: #2a2a2a;
+  border-radius: 4px;
+  margin-top: 1rem;
+}
+
+.emptyContainer p {
+  margin: 0;
+}
